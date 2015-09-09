@@ -11,6 +11,8 @@ import java.util.List;
 @Named
 @RequestScoped
 public class BookController {
+
+    //inversion of control
     @Inject
     BookRepository repository;
 
