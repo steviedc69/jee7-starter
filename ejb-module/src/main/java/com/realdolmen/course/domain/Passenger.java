@@ -1,6 +1,11 @@
 package com.realdolmen.course.domain;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by SDOAX36 on 9/09/2015.
@@ -12,21 +17,83 @@ public class Passenger {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Basic(optional = false)
+    @Column(nullable = false,updatable = false)
     private String ssn;
     @Basic(optional = false)
+    @Column(length = 50)
     private String firstName;
     @Basic(optional = false)
+    @Column(length = 50)
     private String lastName;
     private Integer frequentFlyerMiles;
+    @Temporal(TemporalType.DATE)
+    private Date dateOfBirth;
+    @Transient
+    private int age;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PassengerType passengerType;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date flightTime;
+
 
     public Passenger() {
     }
 
-    public Passenger(String ssn, String firstName, String lastName, Integer frequentFlyerMiles) {
+    public Passenger(String ssn, String firstName, String lastName, Integer frequentFlyerMiles,String date, PassengerType type) {
         this.ssn = ssn;
         this.firstName = firstName;
         this.lastName = lastName;
         this.frequentFlyerMiles = frequentFlyerMiles;
+        this.setDateOfBirth(date);
+        this.passengerType = type;
+        flightTime = new Date();
+        this.setAge(getDateOfBirth());
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            this.dateOfBirth = format.parse(dateOfBirth);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public PassengerType getPassengerType() {
+        return passengerType;
+    }
+
+    private void setAge(Date dateOfBirth)
+    {
+        Date now = new Date();
+        int year = now.getYear();
+        int birthYear = dateOfBirth.getYear();
+        age = year - birthYear;
+    }
+
+    public int getAge()
+    {
+
+        return this.age;
+    }
+
+    public void setPassengerType(PassengerType passengerType) {
+        this.passengerType = passengerType;
+    }
+
+    public Date getFlightTime() {
+        return flightTime;
+    }
+
+    public void setFlightTime(Date flightTime) {
+        this.flightTime = flightTime;
     }
 
     public Long getId() {
