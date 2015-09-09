@@ -35,12 +35,12 @@ public class Passenger {
     public Passenger() {
     }
 
-    public Passenger(PassengerId id, String firstName, Integer frequentFlyerMiles,String filename) {
+    public Passenger(PassengerId id, String firstName, Integer frequentFlyerMiles) {
         this.id = id;
         this.firstName = firstName;
 
         this.frequentFlyerMiles = frequentFlyerMiles;
-        setPicture(filename);
+        setPicture();
     }
 
     public PassengerId getId() {
@@ -68,10 +68,10 @@ public class Passenger {
         this.frequentFlyerMiles = frequentFlyerMiles;
     }
 
-    public void setPicture(String file)
+    public void setPicture()
     {
         try {
-            BufferedImage image = ImageIO.read(new File(file));
+            BufferedImage image = ImageIO.read(new File("C:\\Users\\sdoax36\\jee7-starter\\ejb-module\\src\\main\\resources\\profile.jpg"));
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             ImageIO.write(image,"jpg",stream);
             picture = stream.toByteArray();

@@ -19,7 +19,7 @@ public class PassengerPersistenceTest extends DataSetPersistenceTest {
 
     @Test
     public void passengerCanBePersisted() throws Exception {
-        Passenger p = new Passenger(new PassengerId("1112313312","Smith"),"Joht",15,"profile.jpg");
+        Passenger p = new Passenger(new PassengerId("1112313312","Smith"),"Joht",15);
         entityManager().persist(p);
         assertNotNull(p.getId());
     }
@@ -27,7 +27,7 @@ public class PassengerPersistenceTest extends DataSetPersistenceTest {
 
     @Test(expected = Exception.class)
     public void passengerCanNotBePersistedWithoutFirstName() throws Exception{
-        Passenger p = new Passenger(new PassengerId("1112313312","Smith"),null,15,"profile.jpg");
+        Passenger p = new Passenger(new PassengerId("1112313312","Smith"),null,15);
         entityManager().persist(p);
         entityManager().flush();
     }
