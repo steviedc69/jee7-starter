@@ -1,46 +1,56 @@
 package com.realdolmen.course.domain;
 
+import javax.imageio.ImageIO;
 import javax.persistence.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
 
 /**
  * Created by SDOAX36 on 9/09/2015.
  */
 @Entity
+@SecondaryTables({
+        @SecondaryTable(name = "t_ffm"),
+        @SecondaryTable(name= "t_image")
+})
 public class Passenger {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Basic(optional = false)
-    private String ssn;
+    @EmbeddedId
+    private PassengerId id;
+
     @Basic(optional = false)
     private String firstName;
-    @Basic(optional = false)
-    private String lastName;
+
+    @Column(table = "t_ffm")
     private Integer frequentFlyerMiles;
+
+    @Column(table="t_image")
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    private byte[] picture;
 
     public Passenger() {
     }
 
-    public Passenger(String ssn, String firstName, String lastName, Integer frequentFlyerMiles) {
-        this.ssn = ssn;
+    public Passenger(PassengerId id, String firstName, Integer frequentFlyerMiles,String filename) {
+        this.id = id;
         this.firstName = firstName;
-        this.lastName = lastName;
+
         this.frequentFlyerMiles = frequentFlyerMiles;
+        setPicture(filename);
     }
 
-    public Long getId() {
+    public PassengerId getId() {
         return id;
     }
 
-
-    public String getSsn() {
-        return ssn;
+    public void setId(PassengerId id) {
+        this.id = id;
     }
 
-    public void setSsn(String ssn) {
-        this.ssn = ssn;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -50,19 +60,24 @@ public class Passenger {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public Integer getFrequentFlyerMiles() {
         return frequentFlyerMiles;
     }
 
     public void setFrequentFlyerMiles(Integer frequentFlyerMiles) {
         this.frequentFlyerMiles = frequentFlyerMiles;
+    }
+
+    public void setPicture(String file)
+    {
+        try {
+            BufferedImage image = ImageIO.read(new File(file));
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            ImageIO.write(image,"jpg",stream);
+            picture = stream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

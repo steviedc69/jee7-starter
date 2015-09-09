@@ -2,6 +2,7 @@ package com.realdolmen.course.persistence;
 
 
 import com.realdolmen.course.domain.Passenger;
+import com.realdolmen.course.domain.PassengerId;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -18,30 +19,25 @@ public class PassengerPersistenceTest extends DataSetPersistenceTest {
 
     @Test
     public void passengerCanBePersisted() throws Exception {
-        Passenger p = new Passenger("02123321","john","Doe",15);
+        Passenger p = new Passenger(new PassengerId("1112313312","Smith"),"Joht",15,"profile.jpg");
         entityManager().persist(p);
         assertNotNull(p.getId());
     }
 
-    @Test(expected = PersistenceException.class)
-    public void passengerCanNotBePersistedWithoutSsn() throws Exception {
-        Passenger p = new Passenger(null, "John","Smith",15);
-        entityManager().persist(p);
-    }
-    @Test(expected = PersistenceException.class)
+
+    @Test(expected = Exception.class)
     public void passengerCanNotBePersistedWithoutFirstName() throws Exception{
-        Passenger p = new Passenger("122313213",null,"Smithers",11);
+        Passenger p = new Passenger(new PassengerId("1112313312","Smith"),null,15,"profile.jpg");
         entityManager().persist(p);
+        entityManager().flush();
     }
-    @Test(expected = PersistenceException.class)
-    public void passengerCanNotBePersistedWithoutLastName() throws Exception{
-        Passenger p = new Passenger("122313213","jan",null,11);
-        entityManager().persist(p);
-    }
+
 
     @Test
     public void passengerCanBeRetrievedById() throws Exception {
 
-        assertEquals("02123321",entityManager().find(Passenger.class,1L).getSsn());
+       assertEquals("john",entityManager().find(Passenger.class,new PassengerId("12552466","Doe")).getFirstName());
+
     }
+
 }
