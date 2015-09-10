@@ -57,14 +57,4 @@ public class Ticket {
         this.status = status;
     }
 
-    @ManyToOne(optional = false)
-    private Passenger passengers;
-
-    public Passenger getPassengers() {
-        return passengers;
-    }
-
-    public void setPassengers(Passenger passengers) {
-        this.passengers = passengers;
-    }
 }
