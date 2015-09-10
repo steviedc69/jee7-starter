@@ -50,19 +50,28 @@ public class PassengerPersistenceTest extends DataSetPersistenceTest {
     }
     @Test
     public void canAddCreditCardToPassenger() throws Exception{
-        Passenger p = entityManager().find(Passenger.class,1000L);
+        Passenger p = entityManager().find(Passenger.class, 1000L);
+
+        p.addCreditCardToList(new CreditCard("121232131", "21/28", 15, CreditCardType.AMEX));
         int count = p.getCreditCardCount();
-        p.addCreditCardToList(new CreditCard("121232131","21/28",15, CreditCardType.AMEX));
-        assertEquals(count+1,p.getCreditCardCount());
+        entityManager().persist(p);
+        entityManager().flush();
+        Passenger p2 = entityManager().find(Passenger.class, 1000L);
+
+        assertEquals(count, p2.getCreditCardCount());
     }
     @Test
     public void canAddPreferenceToPassenger() throws Exception{
-        Passenger p = entityManager().find(Passenger.class,1000L);
-        int count = p.getPrefListCount();
+        Passenger p = entityManager().find(Passenger.class, 1000L);
         p.addPreference("a pref");
-        assertEquals(count+1,p.getPrefListCount());
+        int count = p.getPrefListCount();
         entityManager().persist(p);
         entityManager().flush();
+        Passenger p2 = entityManager().find(Passenger.class,1000L);
+        int count2 = p2.getPrefListCount();
+;
+        assertEquals(count,count2);
+
     }
     @Test
     public void canRetriveCreditCard() throws Exception{
