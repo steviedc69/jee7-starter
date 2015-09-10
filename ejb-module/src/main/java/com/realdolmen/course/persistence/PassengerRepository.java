@@ -19,4 +19,6 @@ public class PassengerRepository implements RemotePassengerRepository{
 
         return em.createQuery("select p from Passenger p", Passenger.class).getResultList();
     }
+
+    //public to remove
 }

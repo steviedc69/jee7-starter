@@ -6,6 +6,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 
 /**
@@ -73,15 +74,36 @@ public class PassengerPersistenceTest extends DataSetPersistenceTest {
         assertEquals(count,count2);
 
     }
+
     @Test
-    public void canRetriveCreditCard() throws Exception{
-//to be implemented
+    public void canUpdatePassenger()throws Exception{
+
+        Passenger p = entityManager().find(Passenger.class,1000L);
+        p.setFirstName("Jantje");
+        entityManager().merge(p);
+        entityManager().flush();
+        assertEquals("Jantje", entityManager().find(Passenger.class, 1000L).getFirstName());
     }
 
+    @Test(expected = EntityNotFoundException.class)
+    public void canDeletePassenger() throws Exception{
+        Passenger p = entityManager().getReference(Passenger.class, 1000L);
+        entityManager().remove(p);
+        entityManager().flush();
+        assertNull("Passenger shoud be null", entityManager().getReference(Passenger.class, 1000L));
+    }
     @Test
     public void passengerAgeCanBeCalculated() throws Exception{
         Passenger p = new Passenger("122313213","jan","De Boel",11,"15/02/1990", PassengerType.ECONOMY,new Adress("Sesamstraat", "", "Sprookjesbos", "99955", "Holland"));
-        assertEquals(25,p.getAge());
+        assertEquals(25, p.getAge());
+    }
+    @Test
+    public void refreshPassengerData() throws Exception{
+        Passenger p = entityManager().find(Passenger.class,1000L);
+        assertEquals(p.getFirstName(),"Steven");
+        p.setFirstName("jon");
+        entityManager().refresh(p);
+        assertEquals(p.getFirstName(),"Steven");
     }
 
 }
