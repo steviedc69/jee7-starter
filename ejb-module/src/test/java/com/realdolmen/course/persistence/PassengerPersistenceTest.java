@@ -65,6 +65,7 @@ public class PassengerPersistenceTest extends DataSetPersistenceTest {
         Passenger p = entityManager().find(Passenger.class, 1000L);
         p.addPreference("a pref");
         int count = p.getPrefListCount();
+        p.setAantalPrefs(count);
         entityManager().persist(p);
         entityManager().flush();
         Passenger p2 = entityManager().find(Passenger.class,1000L);
