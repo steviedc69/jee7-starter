@@ -55,12 +55,18 @@ public class PassengerPersistenceTest extends DataSetPersistenceTest {
         p.addCreditCardToList(new CreditCard("121232131","21/28",15, CreditCardType.AMEX));
         assertEquals(count+1,p.getCreditCardCount());
     }
-
+    @Test
     public void canAddPreferenceToPassenger() throws Exception{
         Passenger p = entityManager().find(Passenger.class,1000L);
         int count = p.getPrefListCount();
         p.addPreference("a pref");
         assertEquals(count+1,p.getPrefListCount());
+        entityManager().persist(p);
+        entityManager().flush();
+    }
+    @Test
+    public void canRetriveCreditCard() throws Exception{
+//to be implemented
     }
 
     @Test
