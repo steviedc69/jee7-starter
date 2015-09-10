@@ -4,10 +4,7 @@ import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by SDOAX36 on 9/09/2015.
@@ -32,6 +29,11 @@ public class Passenger {
     private Date dateOfBirth;
     @Transient
     private int age;
+
+    @OneToMany(mappedBy = "passenger")
+    private Collection<Ticket> tickets;
+    private Integer aantalPrefs;
+    private Integer aantalCredits;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -62,11 +64,39 @@ public class Passenger {
         this.passengerType = type;
         flightTime = new Date();
         this.setAge(getDateOfBirth());
-        addCreditCardToList(new CreditCard("2121323131","12/08",1522,CreditCardType.VISA));
+        addCreditCardToList(new CreditCard("2121323131", "12/08", 1522, CreditCardType.VISA));
         addPreference("none");
         this.adress = adress;
+        this.aantalCredits = getCreditCardCount();
+        this.aantalPrefs= getPrefListCount();
+        this.tickets = new ArrayList<>();
 
+    }
 
+    public void buyTicket(Ticket ticket)
+    {
+        if(tickets == null)
+        {
+            tickets = new ArrayList<>();
+        }
+        tickets.add(ticket);
+        ticket.setPassenger(this);
+    }
+
+    public int getAantalPrefs() {
+        return aantalPrefs;
+    }
+
+    public void setAantalPrefs(int aantalPrefs) {
+        this.aantalPrefs = aantalPrefs;
+    }
+
+    public int getAantalCredits() {
+        return aantalCredits;
+    }
+
+    public void setAantalCredits(int aantalCredits) {
+        this.aantalCredits = aantalCredits;
     }
 
     public void addCreditCardToList(CreditCard card)
