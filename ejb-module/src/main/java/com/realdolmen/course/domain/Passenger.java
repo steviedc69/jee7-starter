@@ -4,8 +4,10 @@ import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by SDOAX36 on 9/09/2015.
@@ -38,11 +40,20 @@ public class Passenger {
     @Temporal(TemporalType.TIMESTAMP)
     private Date flightTime;
 
+    @Embedded
+    private Adress adress;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<CreditCard> creditCardList;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name="tags")
+    private List<String>preferences;
 
     public Passenger() {
     }
 
-    public Passenger(String ssn, String firstName, String lastName, Integer frequentFlyerMiles,String date, PassengerType type) {
+    public Passenger(String ssn, String firstName, String lastName, Integer frequentFlyerMiles,String date, PassengerType type,Adress adress) {
         this.ssn = ssn;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -51,6 +62,39 @@ public class Passenger {
         this.passengerType = type;
         flightTime = new Date();
         this.setAge(getDateOfBirth());
+        addCreditCardToList(new CreditCard("2121323131","12/08",1522,CreditCardType.VISA));
+        addPreference("none");
+        this.adress = adress;
+
+
+    }
+
+    public void addCreditCardToList(CreditCard card)
+    {
+        if(creditCardList == null)
+        {
+            creditCardList=new ArrayList<>();
+        }
+
+        creditCardList.add(card);
+    }
+    public int getCreditCardCount()
+    {
+        return this.creditCardList.size();
+    }
+
+    public void addPreference(String pref)
+    {
+        if(preferences == null)
+        {
+            preferences = new ArrayList<>();
+        }
+
+        preferences.add(pref);
+    }
+    public int getPrefListCount()
+    {
+        return preferences.size();
     }
 
     public Date getDateOfBirth() {
