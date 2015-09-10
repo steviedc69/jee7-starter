@@ -2,4 +2,9 @@
     <book id="1000" author="George Orwell" title="Nineteen Eighty Four" genre="fiction"/>
     <book id="2000" author="Aldous Huxley" title="Brave New World" genre="fiction"/>
     <book id="3000" author="Bram Stoker" title="Dracula" genre="fiction"/>
+    <passenger id="1000" city="Aalst" country="Belgium" street1="HighStreet" street2=" " zipCode="9300" dateOfBirth="1990-02-15"
+               firstName="Steven" lastName="De Cock" frequentFlyerMiles="12" passengerType="VIP" ssn="87010835575">
+        <passenger_creditcardlist Passenger_id="1000" expiryDate="12/19" number="6708052625221" controlNumber="45" type="VISA"></passenger_creditcardlist>
+        <tags Passenger_id="1000" preferences="blabla"></tags>
+    </passenger>
 </dataset>

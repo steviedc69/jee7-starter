@@ -1,0 +1,179 @@
+package com.realdolmen.course.domain;
+
+import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by SDOAX36 on 9/09/2015.
+ */
+@Entity
+public class Passenger {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Basic(optional = false)
+    @Column(nullable = false,updatable = false)
+    private String ssn;
+    @Basic(optional = false)
+    @Column(length = 50)
+    private String firstName;
+    @Basic(optional = false)
+    @Column(length = 50)
+    private String lastName;
+    private Integer frequentFlyerMiles;
+    @Temporal(TemporalType.DATE)
+    private Date dateOfBirth;
+    @Transient
+    private int age;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PassengerType passengerType;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date flightTime;
+
+    @Embedded
+    private Adress adress;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<CreditCard> creditCardList;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name="tags")
+    private List<String>preferences;
+
+    public Passenger() {
+    }
+
+    public Passenger(String ssn, String firstName, String lastName, Integer frequentFlyerMiles,String date, PassengerType type,Adress adress) {
+        this.ssn = ssn;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.frequentFlyerMiles = frequentFlyerMiles;
+        this.setDateOfBirth(date);
+        this.passengerType = type;
+        flightTime = new Date();
+        this.setAge(getDateOfBirth());
+        addCreditCardToList(new CreditCard("2121323131","12/08",1522,CreditCardType.VISA));
+        addPreference("none");
+        this.adress = adress;
+
+
+    }
+
+    public void addCreditCardToList(CreditCard card)
+    {
+        if(creditCardList == null)
+        {
+            creditCardList=new ArrayList<>();
+        }
+
+        creditCardList.add(card);
+    }
+    public int getCreditCardCount()
+    {
+        return this.creditCardList.size();
+    }
+
+    public void addPreference(String pref)
+    {
+        if(preferences == null)
+        {
+            preferences = new ArrayList<>();
+        }
+
+        preferences.add(pref);
+    }
+    public int getPrefListCount()
+    {
+        return preferences.size();
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            this.dateOfBirth = format.parse(dateOfBirth);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public PassengerType getPassengerType() {
+        return passengerType;
+    }
+
+    private void setAge(Date dateOfBirth)
+    {
+        Date now = new Date();
+        int year = now.getYear();
+        int birthYear = dateOfBirth.getYear();
+        age = year - birthYear;
+    }
+
+    public int getAge()
+    {
+
+        return this.age;
+    }
+
+    public void setPassengerType(PassengerType passengerType) {
+        this.passengerType = passengerType;
+    }
+
+    public Date getFlightTime() {
+        return flightTime;
+    }
+
+    public void setFlightTime(Date flightTime) {
+        this.flightTime = flightTime;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+
+    public String getSsn() {
+        return ssn;
+    }
+
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Integer getFrequentFlyerMiles() {
+        return frequentFlyerMiles;
+    }
+
+    public void setFrequentFlyerMiles(Integer frequentFlyerMiles) {
+        this.frequentFlyerMiles = frequentFlyerMiles;
+    }
+}
