@@ -1,13 +1,14 @@
 package com.realdolmen.course.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by SDOAX36 on 10/09/2015.
  */
 @Entity
 @Table(name = "ticket")
-public class Ticket {
+public class Ticket implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

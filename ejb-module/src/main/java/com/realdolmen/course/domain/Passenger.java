@@ -1,6 +1,7 @@
 package com.realdolmen.course.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,7 +11,12 @@ import java.util.*;
  * Created by SDOAX36 on 9/09/2015.
  */
 @Entity
-public class Passenger {
+@NamedQueries(
+        @NamedQuery(name = Passenger.FIND_ALL, query = "select p from Passenger p")
+)
+public class Passenger implements Serializable{
+
+    public static final String FIND_ALL = "Passeger.findAll";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -206,4 +212,5 @@ public class Passenger {
     public void setFrequentFlyerMiles(Integer frequentFlyerMiles) {
         this.frequentFlyerMiles = frequentFlyerMiles;
     }
+
 }

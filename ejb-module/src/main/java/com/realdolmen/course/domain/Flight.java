@@ -1,6 +1,7 @@
 package com.realdolmen.course.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
@@ -9,7 +10,7 @@ import java.util.Date;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Flight {
+public abstract class Flight implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
