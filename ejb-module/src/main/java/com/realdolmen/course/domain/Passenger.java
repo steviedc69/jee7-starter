@@ -30,7 +30,7 @@ public class Passenger {
     @Transient
     private int age;
 
-    @OneToMany(mappedBy = "passenger")
+    @OneToMany(mappedBy = "passenger",cascade = CascadeType.DETACH)
     private Collection<Ticket> tickets;
     private Integer aantalPrefs;
     private Integer aantalCredits;

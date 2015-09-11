@@ -14,7 +14,7 @@ public class Ticket {
     private Integer id;
     @Basic(optional = false)
     private Double price;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     //@JoinColumn(name = "pas_id")
     private Passenger passenger;
 

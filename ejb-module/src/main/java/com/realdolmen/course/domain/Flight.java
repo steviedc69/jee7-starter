@@ -19,7 +19,7 @@ public abstract class Flight {
     private Date departureTime;
     private Date arrivalTime;
 
-     @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private Collection<Passenger> passengers;
 
     public Flight(String number, Date departureTime, Date arrivalTime) {

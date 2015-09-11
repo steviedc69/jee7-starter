@@ -8,4 +8,7 @@
         <tags Passenger_id="1000" preferences="blabla"></tags>
     </passenger>
     <flight id="2000" number="223ee" departureTime="2015-09-10 14:58:07" arrivalTime="2015-09-10 14:58:07"/>
+    <ticket id="2222" price="12.32" status="PENDING" passenger_id="1000"></ticket>
+    <ticket id="2223" price="12.32" status="PENDING" passenger_id="1000"></ticket>
+    <ticket id="2224" price="12.32" status="PENDING" passenger_id="1000"></ticket>
 </dataset>
