@@ -85,7 +85,7 @@ public class PassengerPersistenceTest extends DataSetPersistenceTest {
         entityManager().flush();
         assertEquals("Jantje", entityManager().find(Passenger.class, 1000L).getFirstName());
     }
-/*
+
     @Test(expected = EntityNotFoundException.class)
     public void canDeletePassenger() throws Exception{
         Passenger p = entityManager().getReference(Passenger.class, 1000L);
@@ -93,7 +93,6 @@ public class PassengerPersistenceTest extends DataSetPersistenceTest {
         entityManager().flush();
         assertNull("Passenger shoud be null", entityManager().getReference(Passenger.class, 1000L));
     }
-    */
     @Test
     public void passengerAgeCanBeCalculated() throws Exception{
         Passenger p = new Passenger("122313213","jan","De Boel",11,"15/02/1990", PassengerType.ECONOMY,new Adress("Sesamstraat", "", "Sprookjesbos", "99955", "Holland"));
