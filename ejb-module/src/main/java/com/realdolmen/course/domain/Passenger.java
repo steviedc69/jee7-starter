@@ -76,7 +76,14 @@ public class Passenger implements Serializable{
         this.aantalCredits = getCreditCardCount();
         this.aantalPrefs= getPrefListCount();
         this.tickets = new ArrayList<>();
+    }
 
+    public Passenger(String ssn, String firstName, String lastName, Integer frequentFlyerMiles, String dateOfBirth) {
+        this.ssn = ssn;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.frequentFlyerMiles = frequentFlyerMiles;
+        setDateOfBirth(dateOfBirth);
     }
 
     public void buyTicket(Ticket ticket)
@@ -213,4 +220,7 @@ public class Passenger implements Serializable{
         this.frequentFlyerMiles = frequentFlyerMiles;
     }
 
+    public void setAdress(Adress adress) {
+        this.adress = adress;
+    }
 }
