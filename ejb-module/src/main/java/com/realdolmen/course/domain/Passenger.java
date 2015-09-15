@@ -223,4 +223,9 @@ public class Passenger implements Serializable{
     public void setAdress(Adress adress) {
         this.adress = adress;
     }
+
+    public Adress getAdress() {
+
+        return adress;
+    }
 }
